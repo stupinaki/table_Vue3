@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import {chunk} from "../../helpers/chunk";
+import {chunk} from "../helpers/chunk";
 
 export default {
   name: "PaginationComponent",

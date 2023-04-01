@@ -2,9 +2,12 @@
   <table id="tableID" class="table" >
     <thead>
       <tr class="tr">
-        <th v-for="header in headers" :key="header.id" class="th">
-          {{ header.title }}
-        </th>
+        <TableHeader
+            v-for="header in headers"
+            :key="header.id"
+            :header="header"
+            @start-sort="onStartSort"
+        />
       </tr>
     </thead>
 
@@ -28,11 +31,11 @@
 </template>
 
 <script>
-import {getDataFromNestedPath} from "../../helpers/getDataFromNestedPath";
+import TableHeader from "@/components/TableHeader";
 
 export default {
   name: "TableComponent",
-  emits: ["rowClick"],
+  emits: ["rowClick", "startSort"],
   props: {
     headers: {
       type: Array,
@@ -43,11 +46,14 @@ export default {
       required: true,
     },
   },
-  methods: {
-    getTdData(row, header) {
-      return getDataFromNestedPath(row, header);
-    },
+  components: {
+    TableHeader,
   },
+  methods: {
+    onStartSort(header) {
+      this.$emit('startSort', header);
+    }
+  }
 }
 </script>
 
@@ -59,12 +65,6 @@ export default {
   }
   .td {
     padding: 0.5rem;
-  }
-  .th {
-    padding: 0.5rem;
-    white-space: nowrap;
-    text-align: start;
-    background-color: #e7e6e6;
   }
   .tr {
     border-bottom: 1px solid #e7e6e6;

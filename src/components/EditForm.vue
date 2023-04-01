@@ -76,7 +76,6 @@ export default {
 </script>
 
 <style scoped>
-
 .form-background {
   position: fixed;
   top: 0;

@@ -1,4 +1,8 @@
-
+export const sortDirections = {
+    ascending: "ascending",
+    descending: "descending",
+    empty: ""
+}
 export const headers = [
     {
         title: 'Имя',

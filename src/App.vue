@@ -21,6 +21,7 @@
         :headers="headers"
         :rows="rows"
         @row-click="onRowClick"
+        @start-sort="onStartSort"
     />
 
     <PaginationComponent :table-rows="rows" :page-size="10">
@@ -34,8 +35,11 @@
 </template>
 
 <script>
-import {headers} from "../data/headers";
-import {newRows} from "../data/rows";
+import {headers} from "./data/headers";
+import {newRows} from "./data/rows";
+import {sortColumn} from "@/helpers/sortColumn";
+import {replaceData} from "@/helpers/replaceData";
+import {changeSortDirection} from "@/helpers/changeSortDirection";
 import ColumnVisibilitySettings from "@/components/ColumnVisibilitySettings";
 import PaginationComponent from "@/components/PaginationComponent";
 import TableComponent from "@/components/TableComponent";
@@ -63,17 +67,30 @@ export default {
     onCheckboxClick(checkboxId) {
       console.log("we get change checkboxId:", checkboxId)
     },
-    onRowChange(newData) {
-      const newRows = [...this.$data.rows];
-      const targetRowIndex = newRows.findIndex(el => el.id === newData.id);
-      newRows.splice(targetRowIndex, 1, newData);
-      this.$data.rows = newRows;
-      this.$data.isEditFormVisible =  false;
-    },
     onRowClick(rowId) {
       this.$data.selectedRow = this.$data.rows.find(row => row.id === rowId);
       this.$data.isEditFormVisible = true;
-    }
+    },
+    onRowChange(newData) {
+      this.$data.rows = replaceData(this.$data.rows, newData);
+      this.$data.isEditFormVisible =  false;
+    },
+    onStartSort(header) {
+      const newDirection = changeSortDirection(header.direction);
+      const newHeader = {
+        ...header,
+        direction: newDirection,
+      }
+
+      this.$data.headers =  replaceData(this.$data.headers, newHeader).map(h => {
+            if(h.id !== newHeader.id) {
+              h.direction = '';
+            }
+            return h;
+          });
+
+      this.$data.rows = sortColumn(this.$data.rows, newHeader.id, newHeader.direction);
+    },
   },
   computed: {
     elseEyeColors() {

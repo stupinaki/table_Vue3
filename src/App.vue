@@ -6,27 +6,28 @@
     />
     <EditForm
         v-if="isEditFormVisible"
-        @change-row-data="onRowChange"
-        @close-edit-form="isEditFormVisible = false"
         :id="selectedRow.id"
         :first-name="selectedRow.firstName"
         :last-name="selectedRow.lastName"
         :about="selectedRow.about"
         :eye-color="selectedRow.eyeColor"
         :eye-colors="elseEyeColors"
+        @change-row-data="onRowChange"
+        @close-edit-form="isEditFormVisible = false"
     />
 
-    <TableComponent
+    <PaginationComponent
         :headers="headers"
         :rows="rows"
-        @row-click="onRowClick"
-        @start-sort="onStartSort"
-    />
-
-    <PaginationComponent :table-rows="rows" :page-size="10">
+        :page-size="10"
+    >
       <template  #default="props">
-        props: {{props}}
-        <TableComponent :headers="props.headers" :rows="props.rows"></TableComponent>
+        <TableComponent
+            :headers="props.headers"
+            :rows="props.rows"
+            @row-click="onRowClick"
+            @start-sort="onStartSort"
+        />
       </template>
     </PaginationComponent>
   </div>
@@ -54,10 +55,10 @@ export default {
   },
   data() {
     return {
-      rows: newRows,
       headers,
-      isEditFormVisible: false,
+      rows: newRows,
       selectedRow: undefined,
+      isEditFormVisible: false,
     }
   },
   methods: {

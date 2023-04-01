@@ -5,10 +5,12 @@
         v-for="header in headers"
         :key="header.id"
     >
-      <input type="checkbox"
-             :id="header.id"
-             :checked="header.visible"
-             @click="onClick">
+      <input
+          type="checkbox"
+          :id="header.id"
+          :checked="header.visible"
+          @click="$emit('checkboxClick', $event.target.id)"
+      >
       <label :for="header.id"> {{ header.title }} </label>
     </div>
   </div>
@@ -24,11 +26,6 @@ export default {
       type: Array,
       required: true,
     },
-  },
-  methods: {
-    onClick(e) {
-      this.$emit("checkboxClick", e.target.id);
-    }
   }
 }
 </script>

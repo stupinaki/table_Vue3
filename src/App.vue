@@ -76,20 +76,13 @@ export default {
       this.$data.isEditFormVisible =  false;
     },
     onStartSort(header) {
+      const { headers, rows } = this.$data;
       const newDirection = changeSortDirection(header.direction);
-      const newHeader = {
-        ...header,
-        direction: newDirection,
-      }
-
-      this.$data.headers =  replaceData(this.$data.headers, newHeader).map(h => {
-            if(h.id !== newHeader.id) {
-              h.direction = '';
-            }
-            return h;
-          });
-
-      this.$data.rows = sortColumn(this.$data.rows, newHeader.id, newHeader.direction);
+      this.$data.headers =  headers.map(h => {
+        h.direction = h.id === header.id ? newDirection : "";
+        return h;
+      });
+      this.$data.rows = sortColumn(rows, header.id, newDirection);
     },
   },
   computed: {

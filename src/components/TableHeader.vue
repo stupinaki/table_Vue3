@@ -1,6 +1,6 @@
 <template>
   <th class="th" @click="$emit('startSort', header)">
-    <div class="th-value">
+    <div v-if="header.visible" class="th-value">
       <div> {{ header.title }} </div>
       <div :class="sortArrowStyle"> 🠹 </div>
     </div>

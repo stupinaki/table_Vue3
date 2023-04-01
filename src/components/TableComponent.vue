@@ -19,11 +19,13 @@
           @click="$emit('rowClick', row.id)"
       >
         <td v-for="header in headers" :key="header.id" class="td">
-          <div
-              v-if="header.specialStyle"
-              :style="header.specialStyle(row[header.id])"
-          />
-          <div v-else> {{ row[header.id] }} </div>
+          <div v-if="header.visible">
+            <div
+                v-if="header.specialStyle"
+                :style="header.specialStyle(row[header.id])"
+            />
+            <div v-else> {{ row[header.id] }} </div>
+          </div>
         </td>
       </tr>
     </tbody>

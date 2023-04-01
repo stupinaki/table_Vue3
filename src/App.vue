@@ -2,7 +2,6 @@
   <div class="main-container">
     <ColumnVisibilitySettings
         :headers="headers"
-        :is-checkbox-selected="isCheckboxSelected"
         @checkbox-click=onCheckboxClick
     />
     <EditForm
@@ -57,15 +56,16 @@ export default {
     return {
       rows: newRows,
       headers,
-      //todo
-      isCheckboxSelected: true,
       isEditFormVisible: false,
       selectedRow: undefined,
     }
   },
   methods: {
     onCheckboxClick(checkboxId) {
-      console.log("we get change checkboxId:", checkboxId)
+      this.$data.headers = this.$data.headers.map(header => {
+        header.visible = header.id === checkboxId ? !header.visible : header.visible;
+        return header;
+      });
     },
     onRowClick(rowId) {
       this.$data.selectedRow = this.$data.rows.find(row => row.id === rowId);

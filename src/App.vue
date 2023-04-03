@@ -16,6 +16,7 @@
         :rows="rows"
         :page-size="10"
         @open-edit-form="onOpenEditForm"
+        @sorted-rows="onSortedRows"
     />
   </div>
 </template>
@@ -56,6 +57,10 @@ export default {
       this.$data.rows = replaceData(this.$data.rows, newData);
       this.$data.selectedRow = undefined;
     },
+    onSortedRows(newData) {
+      this.$data.rows = newData.rows;
+      this.$data.headers = newData.headers;
+    }
   },
   computed: {
     elseEyeColors() {

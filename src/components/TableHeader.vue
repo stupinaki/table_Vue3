@@ -1,6 +1,12 @@
 <template>
-  <th class="table-header" @click="$emit('sort', header)">
-    <div v-if="header.visible" class="th-value">
+  <th
+      class="table-header"
+      @click="onClick"
+  >
+    <div
+        v-if="header.visible"
+        class="th-value"
+    >
       <div> {{ header.title }} </div>
       <div :class="sortArrowStyle"> 🠹 </div>
     </div>
@@ -29,6 +35,11 @@ export default {
         return "aSorted";
       }
       return "unsorted";
+    }
+  },
+  methods: {
+    onClick() {
+      this.$emit('sort', this.$props.header);
     }
   }
 }

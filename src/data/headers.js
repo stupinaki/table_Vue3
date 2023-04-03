@@ -31,7 +31,7 @@ export const headers = [
         id: 'eyeColor',
         direction: '',
         visible: true,
-        specialStyle(content){ // todo should be a render function not just styles
+        render(content){ // todo should be a render function not just styles
             return `background-color: ${content}; border-radius: 50%; height: 2em;  width: 2em; margin: 0 auto`;
         },
     },

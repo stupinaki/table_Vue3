@@ -22,14 +22,15 @@
           :key="header.id"
           class="main-table-cell"
       >
-        <div v-show="header.visible">
-          <!-- TODO please remove, looks wierd and to specific, replace with slot or custom render function-->
-          <div
-              v-if="header.specialStyle"
-              :style="header.specialStyle(row[header.id])"
-          />
-          <div v-else> {{ row[header.id] }} </div>
-        </div>
+        <CellTableUI v-show="header.visible">
+          <template #content>
+            <div
+                v-if="header.render"
+                :style="header.render(row[header.id])"
+            />
+            <div v-else> {{ row[header.id] }} </div>
+          </template>
+        </CellTableUI>
       </td>
     </tr>
     </tbody>
@@ -38,6 +39,7 @@
 
 <script>
 import TableHeader from "@/components/TableHeader";
+import CellTableUI from "@/components/UI/CellTableUI";
 
 export default {
   name: "TableUI",
@@ -54,6 +56,7 @@ export default {
   },
   components: {
     TableHeader,
+    CellTableUI,
   },
   methods: {
     onSort(header) {

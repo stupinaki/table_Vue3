@@ -23,7 +23,7 @@ import PaginationComponent from "@/components/PaginationComponent";
 
 export default {
   name: "TableComponent",
-  emits: ["openEditForm"],
+  emits: ["openEditForm", "sortedRows"],
   props: {
     headers: {
       type: Array,
@@ -44,13 +44,18 @@ export default {
   },
   methods: {
     onStartSort(header) {
-      const { headers, rows } = this.$data;
+      const { headers, rows } = this.$props;
       const newDirection = changeSortDirection(header.direction);
-      this.$props.headers =  headers.map(h => {
+      const newHeaders =  headers.map(h => {
         h.direction = h.id === header.id ? newDirection : "";
         return h;
       });
-      this.$props.rows = sortColumn(rows, header.id, newDirection);
+      const newRows = sortColumn(rows, header.id, newDirection);
+      const data = {
+        headers: newHeaders,
+        rows: newRows,
+      }
+      this.$emit("sortedRows", data);
     },
     onRowClick(rowId) {
       this.$emit('openEditForm', rowId);

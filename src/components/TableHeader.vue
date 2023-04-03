@@ -1,5 +1,5 @@
 <template>
-  <th class="th" @click="$emit('startSort', header)">
+  <th class="table-header" @click="$emit('sort', header)">
     <div v-if="header.visible" class="th-value">
       <div> {{ header.title }} </div>
       <div :class="sortArrowStyle"> 🠹 </div>
@@ -12,35 +12,30 @@ import {sortDirections} from "@/data/headers";
 
 export default {
   name: "TableHeader",
-  emits: ['startSort'],
+  emits: ['sort'],
   props: {
     header: {
       type: Object,
       required: true,
     },
   },
-  data() {
-    return {
-      sortDirections,
-    }
-  },
   computed: {
     sortArrowStyle () {
       const { direction } = this.$props.header;
-      if( direction === sortDirections.descending) {
+      if( direction === sortDirections.des) {
         return "dSorted";
       }
-      if( direction === sortDirections.ascending) {
-        return "aSorted"
+      if( direction === sortDirections.asc) {
+        return "aSorted";
       }
-      return "unsorted"
+      return "unsorted";
     }
   }
 }
 </script>
 
 <style scoped>
-  .th {
+  .table-header {
     padding: 0.5rem;
     white-space: nowrap;
     text-align: start;

@@ -60,18 +60,12 @@ export default {
   methods: {
     goNext() {
       this.$data.currentPageIndex++
-      if ( this.$data.currentPageIndex >= this.chunks.length - 1 ) {
-        this.$data.nextPageDisabled = true;
-        return;
-      }
+      this.$data.nextPageDisabled = this.$data.currentPageIndex >= this.chunks.length - 1;
       this.$data.previousPageDisabled = false;
     },
     goPrevious() {
       this.$data.currentPageIndex--
-      if ( this.$data.currentPageIndex <= 0 ) {
-        this.$data.previousPageDisabled = true;
-        return;
-      }
+      this.$data.previousPageDisabled = this.$data.currentPageIndex <= 0;
       this.$data.nextPageDisabled = false;
     }
   }

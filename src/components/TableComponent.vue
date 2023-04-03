@@ -1,43 +1,29 @@
 <template>
-  <table id="tableID" class="table" >
-    <thead>
-      <tr class="tr">
-        <TableHeader
-            v-for="header in headers"
-            :key="header.id"
-            :header="header"
-            @start-sort="onStartSort"
-        />
-      </tr>
-    </thead>
-
-    <tbody id="tbodyID">
-      <tr
-          v-for="row in rows"
-          :key="row.id"
-          class="tr"
-          @click="$emit('rowClick', row.id)"
-      >
-        <td v-for="header in headers" :key="header.id" class="td">
-          <div v-if="header.visible">
-            <div
-                v-if="header.specialStyle"
-                :style="header.specialStyle(row[header.id])"
-            />
-            <div v-else> {{ row[header.id] }} </div>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <PaginationComponent
+    :headers="headers"
+    :rows="rows"
+    :page-size="pageSize"
+  >
+    <template #default="props">
+      <TableUI
+          :headers="props.headers"
+          :rows="props.rows"
+          @row-click="onRowClick"
+          @sort="onStartSort"
+      />
+    </template>
+  </PaginationComponent>
 </template>
 
 <script>
-import TableHeader from "@/components/TableHeader";
+import {sortColumn} from "@/helpers/sortColumn";
+import {changeSortDirection} from "@/helpers/changeSortDirection";
+import TableUI from "@/components/UI/TableUI";
+import PaginationComponent from "@/components/PaginationComponent";
 
 export default {
   name: "TableComponent",
-  emits: ["rowClick", "startSort"],
+  emits: ["openEditForm"],
   props: {
     headers: {
       type: Array,
@@ -47,30 +33,28 @@ export default {
       type: Array,
       required: true,
     },
+    pageSize: {
+      type: Number,
+      required: true
+    }
   },
   components: {
-    TableHeader,
+    TableUI,
+    PaginationComponent,
   },
   methods: {
     onStartSort(header) {
-      this.$emit('startSort', header);
+      const { headers, rows } = this.$data;
+      const newDirection = changeSortDirection(header.direction);
+      this.$props.headers =  headers.map(h => {
+        h.direction = h.id === header.id ? newDirection : "";
+        return h;
+      });
+      this.$props.rows = sortColumn(rows, header.id, newDirection);
+    },
+    onRowClick(rowId) {
+      this.$emit('openEditForm', rowId);
     }
   }
 }
 </script>
-
-<style scoped>
-  .table{
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 1.2rem;
-  }
-  .td {
-    padding: 0.5rem;
-  }
-  .tr {
-    border-bottom: 1px solid #e7e6e6;
-    cursor: pointer;
-  }
-
-</style>

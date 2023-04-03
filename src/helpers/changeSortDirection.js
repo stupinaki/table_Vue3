@@ -1,8 +1,8 @@
 import {sortDirections} from "@/data/headers";
 
 export function changeSortDirection(currentDirection) {
-    if(currentDirection === sortDirections.ascending) {
-        return sortDirections.descending;
+    if(currentDirection === sortDirections.asc) {
+        return sortDirections.des;
     }
-    return sortDirections.ascending;
+    return sortDirections.asc;
 }

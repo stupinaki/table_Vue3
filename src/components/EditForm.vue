@@ -1,19 +1,19 @@
 <template>
   <div class="form-background" @click="$emit('closeEditForm')"/>
   <div class="form-container">
-    <form class="form" @submit.prevent="onSubmit">
+    <form class="edit-form" @submit.prevent="onSubmit">
       <label for="firstName">Имя</label>
-      <input :value="firstName" id="firstName" ref="firstName" type="text" class="edit-details">
+      <input :value="row.firstName" id="firstName" ref="firstName" type="text" class="edit-details">
 
       <label for="lastName">Фамилия</label>
-      <input id="lastName" ref="lastName"  type="text" class="edit-details" :value="lastName">
+      <input id="lastName" ref="lastName"  type="text" class="edit-details" :value="row.lastName">
 
       <label for="about">Описание</label>
-      <textarea id="about" ref="about" class="edit-details" rows="10" :value="about"/>
+      <textarea id="about" ref="about" class="edit-details" rows="10" :value="row.about"/>
 
       <label for="eyeColor">Цвет глаз</label>
       <select id="eyeColor" ref="eyeColor" class="edit-details">
-        <option :value="eyeColor"> {{ eyeColor }} </option>
+        <option :value="row.eyeColor"> {{ row.eyeColor }} </option>
         <option
             v-for="(color, i) in eyeColors"
             :key="i"
@@ -35,25 +35,9 @@ export default {
   name: "EditForm",
   emits: ["changeRowData", "closeEditForm"],
   props: {
-    id: {
-      type: String,
-      required: true,
-    },
-    firstName: {
-      type: String,
-      required: true,
-    },
-    lastName: {
-      type: String,
-      required: true,
-    },
-    about: {
-      type: String,
-      required: true,
-    },
-    eyeColor: {
-      type: String,
-      required: true,
+    row: {
+      type: Object,
+      required: true
     },
     eyeColors: {
       type: Array,
@@ -63,7 +47,7 @@ export default {
   methods: {
     onSubmit() {
       const newRow = {
-        id: this.$props.id,
+        id: this.$props.row.id,
         firstName: this.$refs.firstName.value,
         lastName: this.$refs.lastName.value,
         about: this.$refs.about.value,
@@ -94,7 +78,7 @@ export default {
   border-radius: 16px;
   padding: 20px;
 }
-.form {
+.edit-form {
   display: flex;
   flex-direction: column;
   gap: 8px;

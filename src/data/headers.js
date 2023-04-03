@@ -1,6 +1,6 @@
 export const sortDirections = {
-    ascending: "ascending",
-    descending: "descending",
+    asc: "asc",
+    des: "des",
     empty: ""
 }
 export const headers = [
@@ -13,7 +13,7 @@ export const headers = [
     {
         title: 'Фамилия',
         id: 'lastName',
-        direction: '',
+        direction: '',// todo sort direction should not be part of table config
         visible: true,
     },
     {
@@ -31,7 +31,7 @@ export const headers = [
         id: 'eyeColor',
         direction: '',
         visible: true,
-        specialStyle(content){
+        specialStyle(content){ // todo should be a render function not just styles
             return `background-color: ${content}; border-radius: 50%; height: 2em;  width: 2em; margin: 0 auto`;
         },
     },

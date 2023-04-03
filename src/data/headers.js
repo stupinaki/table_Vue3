@@ -1,8 +1,10 @@
+
 export const sortDirections = {
     asc: "asc",
     des: "des",
     empty: ""
 }
+
 export const headers = [
     {
         title: 'Имя',
@@ -21,19 +23,12 @@ export const headers = [
         id: 'about',
         direction: '',
         visible: true,
-        //todo
-        // specialStyle() {
-        //     return "overflow: hidden; max-height: 3rem; -webkit-line-clamp: 2;display: -webkit-box; -webkit-box-orient: vertical;"
-        // }
     },
     {
         title: 'Цвет глаз',
         id: 'eyeColor',
         direction: '',
         visible: true,
-        render(content){ // todo should be a render function not just styles
-            return `background-color: ${content}; border-radius: 50%; height: 2em;  width: 2em; margin: 0 auto`;
-        },
     },
 ]
 

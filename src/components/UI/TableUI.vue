@@ -2,7 +2,7 @@
   <table class="main-table" >
     <thead>
     <tr class="main-table-row">
-      <TableHeader
+      <CellTableHeaderUI
           v-for="header in headers"
           :key="header.id"
           :header="header"
@@ -17,29 +17,26 @@
         class="main-table-row"
         @click="$emit('rowClick', row.id)"
     >
-      <td
-          v-for="header in headers"
-          :key="header.id"
-          class="main-table-cell"
-      >
-        <CellTableUI v-show="header.visible">
-          <template #content>
-            <div
-                v-if="header.render"
-                :style="header.render(row[header.id])"
-            />
-            <div v-else> {{ row[header.id] }} </div>
-          </template>
-        </CellTableUI>
-      </td>
+      <template v-for="header in headers" :key="header.id">
+        <td class="main-table-cell">
+          <div v-show="header.visible">
+            <slot
+                name="tableCell"
+                :value="row[header.id]"
+                :header="header"
+            >
+              {{ row[header.id] }}
+            </slot>
+          </div>
+        </td>
+      </template>
     </tr>
     </tbody>
   </table>
 </template>
 
 <script>
-import TableHeader from "@/components/TableHeader";
-import CellTableUI from "@/components/UI/CellTableUI";
+import CellTableHeaderUI from "@/components/UI/CellTableHeaderUI";
 
 export default {
   name: "TableUI",
@@ -55,8 +52,7 @@ export default {
     },
   },
   components: {
-    TableHeader,
-    CellTableUI,
+    CellTableHeaderUI,
   },
   methods: {
     onSort(header) {

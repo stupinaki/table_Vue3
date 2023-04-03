@@ -10,7 +10,13 @@
           :rows="props.rows"
           @row-click="onRowClick"
           @sort="onStartSort"
-      />
+      >
+        <template #tableCell="cellProps">
+          <component :is="getComponent(cellProps.header.id)" v-bind="cellProps">
+            {{cellProps.value}}
+          </component>
+        </template>
+      </TableUI>
     </template>
   </PaginationComponent>
 </template>
@@ -19,6 +25,8 @@
 import {sortColumn} from "@/helpers/sortColumn";
 import {changeSortDirection} from "@/helpers/changeSortDirection";
 import TableUI from "@/components/UI/TableUI";
+import AboutCell from "@/components/cells/AboutCell";
+import EyeColorCell from "@/components/cells/EyeColorCell";
 import PaginationComponent from "@/components/PaginationComponent";
 
 export default {
@@ -40,9 +48,20 @@ export default {
   },
   components: {
     TableUI,
+    AboutCell,
+    EyeColorCell,
     PaginationComponent,
   },
   methods: {
+    getComponent(headerId) {
+      if (headerId === "eyeColor") {
+        return EyeColorCell;
+      }
+      if (headerId === "about") {
+        return AboutCell;
+      }
+      return "div";
+    },
     onStartSort(header) {
       const { headers, rows } = this.$props;
       const newDirection = changeSortDirection(header.direction);

@@ -17,7 +17,7 @@
 import {sortDirections} from "@/data/headers";
 
 export default {
-  name: "TableHeader",
+  name: "CellTableHeaderUI",
   emits: ['sort'],
   props: {
     header: {

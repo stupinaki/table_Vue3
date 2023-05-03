@@ -74,6 +74,7 @@ export default {
 </script>
 
 <style>
+@import "reset.css";
 .main-container {
   margin: 20px 40px;
 }
